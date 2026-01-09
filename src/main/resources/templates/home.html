@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home page</title>
+</head>
+<body>
+
+<h1>Hellp spring boot!!</h1>
+<ul>
+    <th:block th:each="test : ${tests}">
+        <li th:text="${test.id} + '->' + ${test.name}"></li>
+    </th:block>
+
+</ul>
+</body>
+</html>

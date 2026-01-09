@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: sotx
+
+  sql:
+    init:
+      mode: never
+
+  profiles:
+    active: test1
+
+server:
+  port: 9090
