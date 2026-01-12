@@ -17,4 +17,5 @@ public class BaseEntity extends IdEntity{
     private LocalDateTime updatedAt;
     private String createdBy;
     private String updatedBy;
+    private Boolean deleted = Boolean.FALSE;
 }

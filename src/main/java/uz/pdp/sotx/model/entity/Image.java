@@ -15,4 +15,5 @@ public class Image {
     private String originalName; // javhor.jpeg
     private Long size; // 12321321 byte
     private String contentType; // img/jpeg, img/png
+    private String objectId;
 }

@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface CrudService<CD, UD, D, ID> {
 
-    void create(CD dto);
+    D create(CD dto);
 
-    void update(ID id, UD dto);
+    D update(ID id, UD dto);
 
     List<D> getAll();
 

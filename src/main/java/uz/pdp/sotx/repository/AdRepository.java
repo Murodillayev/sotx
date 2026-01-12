@@ -1,7 +1,9 @@
 package uz.pdp.sotx.repository;
 
+import uz.pdp.sotx.model.dto.AdDto;
 import uz.pdp.sotx.model.entity.Ad;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AdRepository {
@@ -10,4 +12,5 @@ public interface AdRepository {
 
     Optional<Ad> findById(String id);
 
+    List<Ad> findAll();
 }

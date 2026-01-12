@@ -18,5 +18,4 @@ public class AuthUser extends BaseEntity {
     private String username;
     private String password;
     private AuthRole role;
-    private Image image;
 }

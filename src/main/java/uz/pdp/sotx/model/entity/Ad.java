@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.pdp.sotx.model.base.BaseEntity;
 import uz.pdp.sotx.model.enums.Category;
+import uz.pdp.sotx.model.enums.Currency;
 
-import java.util.List;
 
 @Getter
 @Setter
@@ -15,7 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Ad extends BaseEntity {
     private String title;
+    private Double price;
+    private Currency currency;
     private String description;
     private Category category;
-    private List<Image> images;
 }
