@@ -2,6 +2,7 @@ package uz.pdp.sotx.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.ObjectMapper;
 import uz.pdp.sotx.mapper.AdMapper;
 import uz.pdp.sotx.model.dto.AdCreateDto;
 import uz.pdp.sotx.model.dto.AdDto;
@@ -38,6 +39,7 @@ public class AdService implements CrudService<AdCreateDto, AdUpdateDto, AdDto, S
 
     @Override
     public List<AdDto> getAll() {
+
         List<Ad> ads = repository.findAll();
         return mapper.toDto(ads);
     }

@@ -1,10 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>OLX Clone - Asosiy</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .ad-card { transition: 0.3s; border: none; background: #fff; border-radius: 8px; overflow: hidden; }
+        .ad-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .ad-img { height: 170px; object-fit: cover; }
+        .price { font-weight: 700; color: #002f34; font-size: 1.1rem; }
+        #loader { display: none; text-align: center; padding: 50px; }
+    </style>
 </head>
-<body>
+<body class="bg-light">
 
+<div th:replace="~{fragments/nav-foot :: main-nav('ads')}"></div>
+
+<div class="container mt-4">
+    <div class="card p-3 mb-4 shadow-sm border-0">
+        <div class="row g-2">
+            <div class="col-md-7">
+                <input type="text" id="searchInput" class="form-control form-control-lg" placeholder="Qidiruv...">
+            </div>
+            <div class="col-md-3">
+                <select id="categorySelect" class="form-select form-select-lg">
+                    <option value="">Barcha ruknlar</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button onclick="loadAds()" class="btn btn-dark btn-lg w-100">Izlash</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="loader" class="spinner-border text-primary" role="status"></div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" id="adsContainer">
+    </div>
+</div>
+
+<div th:replace="~{fragments/nav-foot :: main-footer}"></div>
+
+
+<script>
+    async function loadAds() {
+        const container = document.getElementById('adsContainer');
+        const loader = document.getElementById('loader');
+        const search = document.getElementById('searchInput').value;
+        const category = document.getElementById('categorySelect').value;
+
+        loader.style.display = 'block';
+        container.innerHTML = '';
+
+        try {
+            const response = await fetch(`/api/v1/ad?search=${search}&category=${category}`);
+            const ads = await response.json();
+
+            ads.forEach(ad => {
+                const imgUrl = (ad.images && ad.images.length > 0) ? ad.images[0] : 'https://via.placeholder.com/300x200?text=Rasm+yoq';
+
+                container.innerHTML += `
+                        <div class="col">
+                            <div class="card h-100 ad-card shadow-sm">
+                                <img src="${imgUrl}" class="ad-img card-img-top">
+                                <div class="card-body">
+                                    <h6 class="card-title text-truncate">${ad.title}</h6>
+                                    <p class="price mb-1">${ad.price} ${ad.currency}</p>
+                                    <p class="text-muted small mb-0">${ad.category}</p>
+                                </div>
+                                <a href="/ads/view/${ad.id}" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    `;
+            });
+        } catch (error) {
+            console.error("Xatolik:", error);
+            container.innerHTML = '<p class="text-danger">Maʼlumotlarni yuklab boʻlmadi.</p>';
+        } finally {
+            loader.style.display = 'none';
+        }
+    }
+
+    // Sahifa yuklanganda chaqirish
+    document.addEventListener('DOMContentLoaded', loadAds);
+</script>
 </body>
 </html>

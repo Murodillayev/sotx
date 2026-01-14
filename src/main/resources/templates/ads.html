@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mening e'lonlarim - Modal Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+<body class="bg-light" onload="loadMyAds()">
+
+<div th:replace="~{fragments/nav-foot :: main-nav('my-ad')}"></div>
+
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3>Mening e'lonlarim</h3>
+        <button class="btn btn-primary" onclick="openModal()">+ Yangi e'lon</button>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <table class="table align-middle mb-0">
+            <thead class="table-light">
+            <tr>
+                <th>Rasm</th>
+                <th>Sarlavha</th>
+                <th>Narx</th>
+                <th class="text-end">Amallar</th>
+            </tr>
+            </thead>
+            <tbody id="myAdsTable">
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="modal fade" id="adModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Yangi e'lon</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="adForm">
+                    <input type="hidden" id="adId"> <div class="mb-3">
+                    <label class="form-label">Sarlavha</label>
+                    <input type="text" id="title" class="form-control" required>
+                </div>
+                    <div class="mb-3">
+                        <label class="form-label">Tavsif</label>
+                        <textarea id="description" class="form-control" rows="3" required></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Narxi</label>
+                            <input type="number" id="price" class="form-control" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Valyuta</label>
+                            <select id="currency" class="form-select">
+                                <option value="UZS">UZS</option>
+                                <option value="USD">USD</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3" id="imageFieldSection">
+                        <label class="form-label">Rasmlar (Faqat yangi e'lon uchun)</label>
+                        <input type="file" id="images" class="form-control" multiple>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Kategoriya</label>
+                        <select id="category" class="form-select" required>
+                            <option value="" disabled selected>Kategoriyani tanlang</option>
+                            <option value="FRUITS">Mevalar</option>
+                            <option value="ELECTRONICS">Elektronika</option>
+                            <option value="ANIMALS">Hayvonlar</option>
+                            <option value="CLOTHES">Kiyimlar</option>
+                            <option value="JOBS">Ish o'rinlari</option>
+                            <option value="TRANSPORTS">Transport</option>
+                            <option value="SPORTS">Sport</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Yopish</button>
+                <button type="button" class="btn btn-primary" onclick="saveAd()">Saqlash</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/nav-foot :: main-footer}"></div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const adModal = new bootstrap.Modal(document.getElementById('adModal'));
+    const form = document.getElementById('adForm');
+
+    // 1. Ma'lumotlarni yuklash
+    async function loadMyAds() {
+        const res = await fetch('/api/v1/ad/my');
+        const ads = await res.json();
+        const tbody = document.getElementById('myAdsTable');
+        tbody.innerHTML = ads.map(ad => `
+                <tr>
+                    <td><img src="${ad.images?.[0] || 'https://via.placeholder.com/50'}" width="50" class="rounded"></td>
+                    <td>${ad.title}</td>
+                    <td>${ad.price} ${ad.currency}</td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-outline-primary" onclick="openModal('${ad.id}')"><i class="bi bi-pencil"></i></button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteAd('${ad.id}')"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+    }
+
+    // 2. Modalni ochish (Yangi yoki Tahrirlash uchun)
+    async function openModal(id = null) {
+        form.reset();
+        document.getElementById('adId').value = id;
+
+        if (id) {
+            document.getElementById('modalTitle').innerText = "E'lonni tahrirlash";
+            document.getElementById('imageFieldSection').style.display = 'none'; // UpdateDto da rasm yo'q
+            const res = await fetch(`/api/v1/ad/${id}`);
+            const ad = await res.json();
+            document.getElementById('title').value = ad.title;
+            document.getElementById('description').value = ad.description;
+            document.getElementById('price').value = ad.price;
+            document.getElementById('currency').value = ad.currency;
+            document.getElementById('category').value = ad.category; // Kategoriya o'rnatildi
+        } else {
+            document.getElementById('modalTitle').innerText = "Yangi e'lon";
+            document.getElementById('imageFieldSection').style.display = 'block';
+        }
+        adModal.show();
+    }
+
+    // 3. Saqlash (POST yoki PUT)
+    async function saveAd() {
+        const id = document.getElementById('adId').value;
+        const category = document.getElementById('category').value; // Qiymatni olish
+        const title = document.getElementById('title').value;
+        const description = document.getElementById('description').value;
+        const price = document.getElementById('price').value;
+        const currency = document.getElementById('currency').value;
+
+        if (id) {
+            // Tahrirlash - JSON
+            await fetch(`/api/v1/ad/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, description, price, currency ,category})
+            });
+        } else {
+            // Yangi - FormData (Rasm borligi uchun)
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('description', description);
+            formData.append('price', price);
+            formData.append('currency', currency);
+            formData.append('category', category); // Kategoriya qo'shildi
+            const files = document.getElementById('images').files;
+            for(let file of files) formData.append('images', file);
+
+            await fetch('/api/v1/ad', { method: 'POST', body: formData });
+        }
+        adModal.hide();
+        loadMyAds();
+    }
+
+    // 4. O'chirish
+    async function deleteAd(id) {
+        if (confirm("Ushbu e'lonni o'chirmoqchimisiz?")) {
+            await fetch(`/api/v1/ad/${id}`, { method: 'DELETE' });
+            loadMyAds();
+        }
+    }
+</script>
+</body>
+</html>

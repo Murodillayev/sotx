@@ -29,6 +29,7 @@ create table ads
     updated_by  varchar,
     deleted     boolean                                     default false
 );
+
 create table images
 (
     id            varchar primary key,

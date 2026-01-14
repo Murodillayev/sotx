@@ -8,7 +8,23 @@ spring:
     password: 19801980
     driver-class-name: org.postgresql.Driver
 
-
   sql:
     init:
       mode: never
+
+  banner:
+    location: classpath:diyor.txt
+
+application:
+  file-root: /sa/da/ads
+  file-max-size: 4000
+  telegram:
+    token: awkjhdsakhjlhkjladshjklsad
+    username: jkhdsahjkads
+
+query:
+  select: bu select data
+  update: bu update data
+  delete: bu delete data
+  insert: bu insert data
+

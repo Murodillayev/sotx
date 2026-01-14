@@ -48,7 +48,10 @@ public class AdMapper {
                 .price(ad.getPrice())
                 .description(ad.getDescription())
                 .category(ad.getCategory())
-                .images(Collections.emptyList())
+                .images(List.of(
+                        "https://kluz-photos.kcdn.online/kluz-content/1d7dea36-cb50-4171-afa3-9cfb251451ef-960x540.jpg",
+                        "https://lionmotors.uz/wp-content/uploads/2020/11/malibu.jpg"
+                ))
                 .build();
     }
 
