@@ -1,5 +1,8 @@
 package uz.pdp.sotx.service;
 
+import org.springframework.data.domain.Page;
+import uz.pdp.sotx.model.dto.PageableDto;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -12,8 +15,8 @@ public interface CrudService<CD, UD, D, ID, C> {
 
     List<D> getAll();
 
-    default List<D> getAll(C criteria) {
-        return Collections.emptyList();
+    default PageableDto<List<D>> getAll(C criteria) {
+        return null;
     }
 
     D get(ID id);

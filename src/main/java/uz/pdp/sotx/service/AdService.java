@@ -1,12 +1,17 @@
 package uz.pdp.sotx.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.pdp.sotx.criteria.AdCriteria;
 import uz.pdp.sotx.mapper.AdMapper;
 import uz.pdp.sotx.model.dto.AdCreateDto;
 import uz.pdp.sotx.model.dto.AdDto;
 import uz.pdp.sotx.model.dto.AdUpdateDto;
+import uz.pdp.sotx.model.dto.PageableDto;
 import uz.pdp.sotx.model.entity.Ad;
 import uz.pdp.sotx.repository.AdRepository;
 import uz.pdp.sotx.va.AdValidator;
@@ -45,10 +50,18 @@ public class AdService
     }
 
     @Override
-    public List<AdDto> getAll(AdCriteria criteria) {
-        List<Ad> allByCategory = repository.findAllByCriteria(criteria.getSearch(), criteria.getCategory());
-        return mapper.toDto(allByCategory);
+    public PageableDto<List<AdDto>> getAll(AdCriteria criteria) {
+
+        Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize(), Sort.by(Sort.Direction.DESC, "created_at"));
+
+
+        Page<Ad> page = repository.findAllByCriteria(criteria.getSearch(), criteria.getCategory() == null ? null : criteria.getCategory().name(), pageable);
+
+        List<AdDto> ads = mapper.toDto(page.getContent());
+
+        return new PageableDto<>(ads, page.getTotalPages(), page.getTotalElements());
     }
+
 
     @Override
     public AdDto get(String id) {

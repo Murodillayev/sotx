@@ -7,6 +7,7 @@ import uz.pdp.sotx.criteria.AdCriteria;
 import uz.pdp.sotx.model.dto.AdCreateDto;
 import uz.pdp.sotx.model.dto.AdDto;
 import uz.pdp.sotx.model.dto.AdUpdateDto;
+import uz.pdp.sotx.model.dto.PageableDto;
 import uz.pdp.sotx.model.enums.Category;
 import uz.pdp.sotx.service.AdService;
 
@@ -26,7 +27,7 @@ public class AdResource {
     }
 
     @GetMapping
-    public List<AdDto> getAll(
+    public PageableDto<List<AdDto>> getAll(
             @RequestParam(defaultValue = "") String search,
             @RequestParam(required = false) String category,
             @RequestParam(defaultValue = "10") Integer size,
