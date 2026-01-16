@@ -1,5 +1,7 @@
-package uz.pdp.sotx.model.base;
+package uz.pdp.sotx.model.entity.base;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,11 +13,13 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@MappedSuperclass
 public class BaseEntity extends IdEntity{
-
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String createdBy;
     private String updatedBy;
-    private Boolean deleted = Boolean.FALSE;
+
+    @Column(columnDefinition = "boolean default false")
+    private Boolean deleted;
 }

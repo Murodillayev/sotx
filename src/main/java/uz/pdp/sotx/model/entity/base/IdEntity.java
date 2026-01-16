@@ -1,5 +1,7 @@
-package uz.pdp.sotx.model.base;
+package uz.pdp.sotx.model.entity.base;
 
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +13,8 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@MappedSuperclass
 public class IdEntity {
+    @Id
     private String id = UUID.randomUUID().toString();
 }

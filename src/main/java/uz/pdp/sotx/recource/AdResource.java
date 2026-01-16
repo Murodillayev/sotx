@@ -3,9 +3,11 @@ package uz.pdp.sotx.recource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import uz.pdp.sotx.criteria.AdCriteria;
 import uz.pdp.sotx.model.dto.AdCreateDto;
 import uz.pdp.sotx.model.dto.AdDto;
 import uz.pdp.sotx.model.dto.AdUpdateDto;
+import uz.pdp.sotx.model.enums.Category;
 import uz.pdp.sotx.service.AdService;
 
 import java.awt.*;
@@ -31,7 +33,16 @@ public class AdResource {
             @RequestParam(defaultValue = "0") Integer page
 
     ) {
-        return service.getAll();
+        AdCriteria criteria = AdCriteria.builder()
+                .search(search)
+                .size(size)
+                .page(page)
+                .build();
+
+
+        criteria.setCategory((category == null || category.isEmpty()) ? null : Category.valueOf(category));
+
+        return service.getAll(criteria);
     }
 
     @GetMapping("/my")

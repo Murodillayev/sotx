@@ -2,7 +2,7 @@ package uz.pdp.sotx.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import tools.jackson.databind.ObjectMapper;
+import uz.pdp.sotx.criteria.AdCriteria;
 import uz.pdp.sotx.mapper.AdMapper;
 import uz.pdp.sotx.model.dto.AdCreateDto;
 import uz.pdp.sotx.model.dto.AdDto;
@@ -12,12 +12,11 @@ import uz.pdp.sotx.repository.AdRepository;
 import uz.pdp.sotx.va.AdValidator;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class AdService implements CrudService<AdCreateDto, AdUpdateDto, AdDto, String> {
-
+public class AdService
+        implements CrudService<AdCreateDto, AdUpdateDto, AdDto, String, AdCriteria> {
     private final AdRepository repository;
     private final AdMapper mapper;
     private final AdValidator validator;
@@ -35,13 +34,20 @@ public class AdService implements CrudService<AdCreateDto, AdUpdateDto, AdDto, S
         Ad ad = validator.existsAndGet(id);
         mapper.fromDto(ad, dto);
         return mapper.toDto(repository.save(ad));
+
     }
 
     @Override
     public List<AdDto> getAll() {
-
         List<Ad> ads = repository.findAll();
         return mapper.toDto(ads);
+
+    }
+
+    @Override
+    public List<AdDto> getAll(AdCriteria criteria) {
+        List<Ad> allByCategory = repository.findAllByCriteria(criteria.getSearch(), criteria.getCategory());
+        return mapper.toDto(allByCategory);
     }
 
     @Override

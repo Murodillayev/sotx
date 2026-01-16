@@ -8,12 +8,9 @@ spring:
     password: 19801980
     driver-class-name: org.postgresql.Driver
 
-  sql:
-    init:
-      mode: never
-
-  banner:
-    location: classpath:diyor.txt
+  jpa:
+    hibernate:
+      ddl-auto: none
 
 application:
   file-root: /sa/da/ads
