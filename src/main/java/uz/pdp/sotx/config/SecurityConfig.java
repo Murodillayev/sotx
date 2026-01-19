@@ -45,7 +45,9 @@ public class SecurityConfig {
 
         http.logout(
                 logout ->
-                        logout.logoutUrl("/logout")
+                        logout.logoutRequestMatcher(request ->
+                                        "POST".equals(request.getMethod()) && "/logout".equals(request.getServletPath())
+                                )
                                 .deleteCookies("JSESSIONID")
                                 .clearAuthentication(true)
                                 .invalidateHttpSession(true)
