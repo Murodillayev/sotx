@@ -8,10 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import uz.pdp.sotx.criteria.AdCriteria;
 import uz.pdp.sotx.mapper.AdMapper;
-import uz.pdp.sotx.model.dto.AdCreateDto;
-import uz.pdp.sotx.model.dto.AdDto;
-import uz.pdp.sotx.model.dto.AdUpdateDto;
-import uz.pdp.sotx.model.dto.PageableDto;
+import uz.pdp.sotx.model.dto.*;
 import uz.pdp.sotx.model.entity.Ad;
 import uz.pdp.sotx.repository.AdRepository;
 import uz.pdp.sotx.va.AdValidator;
@@ -56,10 +53,16 @@ public class AdService
 
 
         Page<Ad> page = repository.findAllByCriteria(criteria.getSearch(), criteria.getCategory() == null ? null : criteria.getCategory().name(), pageable);
-
+//        Page<AdDto> page = repository.findAllByProjection(criteria.getSearch(), criteria.getCategory() == null ? null : criteria.getCategory(), pageable);
+//        Page<AdInterfaceProjection> page2 = repository.findAllByInterfaceProjection(criteria.getSearch(), criteria.getCategory() == null ? null : criteria.getCategory(), pageable);
+//        Page<AdInterfaceProjection> page3 = repository.findAllByInterfaceProjectionNative(criteria.getSearch(), criteria.getCategory() == null ? null : criteria.getCategory().name(), pageable);
         List<AdDto> ads = mapper.toDto(page.getContent());
-
         return new PageableDto<>(ads, page.getTotalPages(), page.getTotalElements());
+
+    }
+
+    public List<IdNameDto> ads() {
+        return repository.findAllForSelect();
     }
 
 
