@@ -1,4 +1,4 @@
-package uz.pdp.sotx.va;
+package uz.pdp.sotx.validator;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

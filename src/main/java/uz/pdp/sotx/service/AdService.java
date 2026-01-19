@@ -14,7 +14,7 @@ import uz.pdp.sotx.model.dto.AdUpdateDto;
 import uz.pdp.sotx.model.dto.PageableDto;
 import uz.pdp.sotx.model.entity.Ad;
 import uz.pdp.sotx.repository.AdRepository;
-import uz.pdp.sotx.va.AdValidator;
+import uz.pdp.sotx.validator.AdValidator;
 
 import java.util.List;
 

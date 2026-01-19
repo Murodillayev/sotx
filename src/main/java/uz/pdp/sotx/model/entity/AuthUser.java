@@ -30,6 +30,6 @@ public class AuthUser extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private AuthRole role;
+//    @Enumerated(EnumType.STRING)
+    private String role;
 }

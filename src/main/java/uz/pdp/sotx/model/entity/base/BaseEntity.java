@@ -21,5 +21,5 @@ public class BaseEntity extends IdEntity{
     private String updatedBy;
 
     @Column(columnDefinition = "boolean default false")
-    private Boolean deleted;
+    private Boolean deleted = Boolean.FALSE;
 }
