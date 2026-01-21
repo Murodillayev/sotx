@@ -6,6 +6,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,7 +19,9 @@ public class SecurityConfig {
             "/index",
             "/login",
             "/register",
-            "/api/v1/auth/register"
+            "/api/v1/auth/register",
+            "/page/**",
+            "/"
     };
 
     @Bean
@@ -33,31 +36,12 @@ public class SecurityConfig {
                     .fullyAuthenticated();
         });
 
-        http.formLogin(
-                form -> {
-                    form
-                            .loginPage("/login")
-                            .defaultSuccessUrl("/index", true)
-                            .usernameParameter("username")
-                            .passwordParameter("password");
+        http.sessionManagement(
+                securitySessionManagementConfigurer -> {
+                    securitySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
                 }
         );
-
-        http.logout(
-                logout ->
-                        logout.logoutRequestMatcher(request ->
-                                        "POST".equals(request.getMethod()) && "/logout".equals(request.getServletPath())
-                                )
-                                .deleteCookies("JSESSIONID")
-                                .clearAuthentication(true)
-                                .invalidateHttpSession(true)
-                                .logoutSuccessUrl("/")
-
-        );
-
-//        http.formLogin(Customizer.withDefaults());
-//        http.logout(Customizer.withDefaults());
-
+        http.httpBasic(Customizer.withDefaults());
         http.userDetailsService(customUserDetailsService);
         return http.build();
     }

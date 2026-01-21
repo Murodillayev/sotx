@@ -11,3 +11,10 @@ import org.springframework.context.annotation.Configuration;
 public class YamlData {
 
 }
+
+// Security config
+
+// form based -> no stateless
+
+// http basic -> stateless
+// jwt  -> stateless

@@ -78,9 +78,16 @@
         paginationContainer.innerHTML = '';
 
         try {
-            // Backend API chaqiruvi
+            const token = localStorage.getItem('basicAuth');
             const url = `/api/v1/ad?search=${encodeURIComponent(search)}&category=${category}&size=${pageSize}&page=${currentPage}`;
-            const response = await fetch(url);
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Basic ' + token
+                }
+            });
 
             if (!response.ok) throw new Error('Tarmoq xatosi');
 
