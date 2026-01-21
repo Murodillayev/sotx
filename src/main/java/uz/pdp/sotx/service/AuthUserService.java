@@ -17,12 +17,14 @@ public class AuthUserService {
     private final AuthUserMapper mapper;
     private final AuthUserRepository repository;
     private final JwtUtils jwtUtils;
+    private final PasswordEncoder passwordEncoder;
 
 
     public AuthUserService(AuthUserMapper mapper, AuthUserRepository repository, PasswordEncoder passwordEncoder, JwtUtils jwtUtils) {
         this.mapper = mapper;
         this.repository = repository;
         this.jwtUtils = jwtUtils;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public void register(RegisterDto dto) {
@@ -34,7 +36,8 @@ public class AuthUserService {
         AuthUser authUser = repository.findByUsernameAndDeletedFalse(request.getUsername()).orElseThrow(
                 () -> new UsernameNotFoundException("Bad credentials")
         );
-        if (!request.getPassword().equals(authUser.getPassword())) {
+
+        if (!passwordEncoder.matches(request.getPassword(), authUser.getPassword())) {
             throw new BadCredentialsException("Bad credentials");
         }
         return jwtUtils.generateToken(request.getUsername());

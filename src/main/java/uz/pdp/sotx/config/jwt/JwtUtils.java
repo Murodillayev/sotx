@@ -1,5 +1,6 @@
 package uz.pdp.sotx.config.jwt;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +33,16 @@ public class JwtUtils {
 
     private SecretKey getSecretKey() {
         return Keys.hmacShaKeyFor("bu_secret_key_uzunligi_32_ta_belgidan_kam_bolmasin".getBytes());
+    }
+
+    public Claims validateToken(String token) {
+
+
+        return Jwts.parser()
+                .verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
     }
 }
