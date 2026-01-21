@@ -11,18 +11,12 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import uz.pdp.sotx.service.CustomUserDetailsService;
+import uz.pdp.sotx.utils.Constants;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final String[] WHITE_LIST = {
-            "/index",
-            "/login",
-            "/register",
-            "/api/v1/auth/register",
-            "/page/**",
-            "/"
-    };
+
 
     @Bean
     public SecurityFilterChain configure(HttpSecurity http, CustomUserDetailsService customUserDetailsService) throws Exception {
@@ -30,7 +24,7 @@ public class SecurityConfig {
         http.cors(AbstractHttpConfigurer::disable);
         http.csrf(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers(WHITE_LIST)
+            auth.requestMatchers(Constants.WHITE_LIST)
                     .permitAll()
                     .anyRequest()
                     .fullyAuthenticated();
@@ -38,10 +32,11 @@ public class SecurityConfig {
 
         http.sessionManagement(
                 securitySessionManagementConfigurer -> {
-                    securitySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+                    securitySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 }
         );
-        http.httpBasic(Customizer.withDefaults());
+
+
         http.userDetailsService(customUserDetailsService);
         return http.build();
     }
@@ -51,3 +46,10 @@ public class SecurityConfig {
         return NoOpPasswordEncoder.getInstance();
     }
 }
+
+
+// Security contec holder(....)
+
+// cf (check token, create authentification(isAuth=ture )) -> put holder
+
+// -> header(token) ->  sf1 -> cf -> sf2(auth check)  sf3 .... -> controller

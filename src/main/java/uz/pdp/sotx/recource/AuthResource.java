@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import uz.pdp.sotx.model.dto.LoginRequest;
+import uz.pdp.sotx.model.dto.LoginResponse;
 import uz.pdp.sotx.model.dto.RegisterDto;
 import uz.pdp.sotx.service.AuthUserService;
 
@@ -19,5 +21,10 @@ public class AuthResource {
     public ResponseEntity<Void> register(@RequestBody RegisterDto dto) {
         service.register(dto);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok(service.login(request));
     }
 }
