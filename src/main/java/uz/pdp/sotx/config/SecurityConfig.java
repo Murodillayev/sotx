@@ -19,9 +19,7 @@ public class SecurityConfig {
             "/index",
             "/login",
             "/register",
-            "/api/v1/auth/register",
-            "/page/**",
-            "/"
+            "/api/v1/auth/register"
     };
 
     @Bean
@@ -38,7 +36,7 @@ public class SecurityConfig {
 
         http.sessionManagement(
                 securitySessionManagementConfigurer -> {
-                    securitySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+                    securitySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                 }
         );
         http.httpBasic(Customizer.withDefaults());
