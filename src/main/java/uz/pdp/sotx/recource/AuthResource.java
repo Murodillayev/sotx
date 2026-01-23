@@ -2,10 +2,7 @@ package uz.pdp.sotx.recource;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.pdp.sotx.model.dto.LoginRequest;
 import uz.pdp.sotx.model.dto.LoginResponse;
 import uz.pdp.sotx.model.dto.RegisterDto;
@@ -24,7 +21,17 @@ public class AuthResource {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok(service.login(request));
+    public LoginResponse login(@RequestBody LoginRequest request) {
+        return service.login(request);
+    }
+
+    @PostMapping("/refresh-token")
+    public LoginResponse refreshToken(@RequestParam String refreshToken) {
+        return service.refreshToken(refreshToken);
     }
 }
+
+// 1. login ni refresh token ham qaytaradigan qilish
+// 2. refresh token orqali tokenni yangilash api
+// 3. access token orqali murojat qilganda shartga userni
+//      db dan olib Auth yasasin yoki token orqali yasasin

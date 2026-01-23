@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import uz.pdp.sotx.model.dto.LoginResponse;
+import uz.pdp.sotx.config.YamlData;
 
 import javax.crypto.SecretKey;
 import java.util.*;
@@ -14,21 +14,27 @@ import java.util.*;
 @RequiredArgsConstructor
 public class JwtUtils {
 
-    public LoginResponse generateToken(String username) {
-        Date expiration = new Date(System.currentTimeMillis() + 1000 * 60 * 3);
+    private final YamlData yamlData;
 
-        String accessToken =
-                Jwts.builder()
-                        .signWith(getSecretKey())
-                        .issuedAt(new Date())
-                        .subject(username)
-                        .expiration(expiration)
-                        .claims(Map.of()) // payload
-                        .compact();
+    public String generateAccessToken(String username, Map<String, Object> claims) {
+        Date expiration = new Date(System.currentTimeMillis() + yamlData.getAccessTokenExpiration());
+        return generateToken(username, expiration, claims);
+    }
 
-        return LoginResponse.builder()
-                .token(accessToken)
-                .build();
+    public String generateToken(String username, Date expiration, Map<String, Object> claims) {
+
+        return Jwts.builder()
+                .signWith(getSecretKey())
+                .issuedAt(new Date())
+                .subject(username)
+                .expiration(expiration)
+                .claims(claims) // payload
+                .compact();
+    }
+
+    public String generateRefreshToken(String username) {
+        Date expiration = new Date(System.currentTimeMillis() + yamlData.getRefreshTokenExpiration());
+        return generateToken(username, expiration, Collections.emptyMap());
     }
 
     private SecretKey getSecretKey() {
@@ -36,8 +42,6 @@ public class JwtUtils {
     }
 
     public Claims validateToken(String token) {
-
-
         return Jwts.parser()
                 .verifyWith(getSecretKey())
                 .build()
