@@ -21,24 +21,9 @@ public class JwtUtils {
         return generateToken(username, expiration, claims);
     }
 
-    public String generateToken(String username, Date expiration, Map<String, Object> claims) {
-
-        return Jwts.builder()
-                .signWith(getSecretKey())
-                .issuedAt(new Date())
-                .subject(username)
-                .expiration(expiration)
-                .claims(claims) // payload
-                .compact();
-    }
-
     public String generateRefreshToken(String username) {
         Date expiration = new Date(System.currentTimeMillis() + yamlData.getRefreshTokenExpiration());
         return generateToken(username, expiration, Collections.emptyMap());
-    }
-
-    private SecretKey getSecretKey() {
-        return Keys.hmacShaKeyFor("bu_secret_key_uzunligi_32_ta_belgidan_kam_bolmasin".getBytes());
     }
 
     public Claims validateToken(String token) {
@@ -49,4 +34,26 @@ public class JwtUtils {
                 .getPayload();
 
     }
+
+
+
+
+
+
+    private String generateToken(String username, Date expiration, Map<String, Object> claims) {
+
+        return Jwts.builder()
+                .signWith(getSecretKey())
+                .issuedAt(new Date())
+                .subject(username)
+                .expiration(expiration)
+                .claims(claims) // payload
+                .compact();
+    }
+
+    private SecretKey getSecretKey() {
+        return Keys.hmacShaKeyFor("bu_secret_key_uzunligi_32_ta_belgidan_kam_bolmasin".getBytes());
+    }
+
+
 }

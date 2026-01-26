@@ -38,6 +38,7 @@ public class AuthUserService {
         if (!passwordEncoder.matches(request.getPassword(), authUser.getPassword())) {
             throw new BadCredentialsException("Bad credentials");
         }
+
         String accessToken = jwtUtils.generateAccessToken(request.getUsername(), Map.of(
                 "role", authUser.getRole()
         ));

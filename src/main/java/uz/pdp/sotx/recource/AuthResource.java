@@ -34,4 +34,4 @@ public class AuthResource {
 // 1. login ni refresh token ham qaytaradigan qilish
 // 2. refresh token orqali tokenni yangilash api
 // 3. access token orqali murojat qilganda shartga userni
-//      db dan olib Auth yasasin yoki token orqali yasasin
+//   db dan olib Auth yasasin yoki token orqali yasasin
