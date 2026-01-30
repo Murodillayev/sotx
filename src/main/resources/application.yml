@@ -1,21 +1,15 @@
-spring:
-  application:
-    name: sotx
+#example.app-name=Nosirxon
+#example.my-skills=java, spring, orm, docker, redis, websocket, spring ai, microservices
 
-  datasource:
-    url: jdbc:postgresql://localhost:5432/sotx
-    username: macbookpro
-    password: 19801980
-    driver-class-name: org.postgresql.Driver
+example:
+  app-name: Nosirxon
+  my-skills: java, spring, orm
 
-  security:
-    user:
-      password: 123
-      name: nosirxon
 
-  jpa:
-    hibernate:
-      ddl-auto: update
 
+application:
+  prop1:
+  prop2:
+  prop3:
 
 
