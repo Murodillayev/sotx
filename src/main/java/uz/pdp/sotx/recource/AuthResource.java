@@ -1,5 +1,6 @@
 package uz.pdp.sotx.recource;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,9 @@ public class AuthResource {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Bu api orqali login qilinadi",description = """
+            Api bla bla
+            """)
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(service.login(request));
     }

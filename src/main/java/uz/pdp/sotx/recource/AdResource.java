@@ -1,5 +1,10 @@
 package uz.pdp.sotx.recource;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +32,26 @@ public class AdResource {
     }
 
     @GetMapping
+    @Operation(summary = "Bu api orqali elonlar royxati olinadi", description = """
+            Api bla bla
+            """)
+
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    useReturnTypeSchema = true
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad Request - Xato ma'lumot yuborildi",
+                    content = @Content(
+                            schema = @Schema(
+                                    implementation = uz.pdp.sotx.model.dto.ErrorDto.class
+                            )
+                    )
+            )
+    })
+
     public PageableDto<List<AdDto>> getAll(
             @RequestParam(defaultValue = "") String search,
             @RequestParam(required = false) String category,
