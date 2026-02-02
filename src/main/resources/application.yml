@@ -12,4 +12,7 @@ application:
   prop2:
   prop3:
 
+springdoc:
+  swagger-ui:
+    path: /sw
 
