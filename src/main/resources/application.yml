@@ -1,18 +1,13 @@
-#example.app-name=Nosirxon
-#example.my-skills=java, spring, orm, docker, redis, websocket, spring ai, microservices
+spring:
+  profiles:
+    active: dev
 
-example:
-  app-name: Nosirxon
-  my-skills: java, spring, orm
+  datasource:
+    username: macbookpro
+    password: 19801980
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/test2
 
-
-
-application:
-  prop1:
-  prop2:
-  prop3:
-
-springdoc:
-  swagger-ui:
-    path: /sw
-
+  jpa:
+    hibernate:
+      ddl-auto: create
