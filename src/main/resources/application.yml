@@ -10,4 +10,12 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
+
+
+logging:
+  level:
+    uz.pdp.sotx.LogExampleController: error
+    uz.pdp.sotx: debug
+  file:
+    name: /Users/macbookpro/Documents/logs/app.log
