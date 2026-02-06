@@ -1,15 +1,15 @@
-package uz.pdp.sotx.controller;
+package uz.pdp.sotx;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/my-ad")
-public class AdController {
+@RequestMapping("/")
+public class HomeController {
 
     @GetMapping
-    public String myAds() {
-        return "ads";
+    public String todoPage() {
+        return "todo";
     }
 }

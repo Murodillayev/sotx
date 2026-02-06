@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sotx Todo App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .completed { text-decoration: line-through; color: gray; }
+        .todo-card { transition: 0.3s; }
+        .todo-card:hover { box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Vazifalar Menejeri</h3>
+
+                    <div class="row g-2">
+                        <div class="col-md-5">
+                            <input type="text" id="title" class="form-control" placeholder="Sarlavha...">
+                        </div>
+                        <div class="col-md-5">
+                            <input type="text" id="description" class="form-control" placeholder="Tavsif...">
+                        </div>
+                        <div class="col-md-2">
+                            <button onclick="saveTodo()" class="btn btn-primary w-100">Qo'shish</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="todoList" class="list-group">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    const API_URL = "/api/todo";
+
+    // Sahifa yuklanganda barcha todo-larni olish
+    document.addEventListener("DOMContentLoaded", getAllTodos);
+
+    async function getAllTodos() {
+        const response = await fetch(API_URL);
+        const todos = await response.json();
+        const listBody = document.getElementById("todoList");
+        listBody.innerHTML = "";
+
+        todos.forEach(todo => {
+            listBody.innerHTML += `
+                <div class="list-group-item d-flex justify-content-between align-items-center todo-card mb-2 rounded shadow-sm">
+                    <div>
+                        <h5 class="${todo.completed ? 'completed' : ''} mb-1">${todo.title}</h5>
+                        <p class="mb-1 text-muted small">${todo.description}</p>
+                    </div>
+                    <div class="btn-group border">
+                        <button onclick="toggleComplete(${todo.id})" class="btn btn-sm btn-outline-success">
+                            ${todo.completed ? '↩️' : '✅'}
+                        </button>
+                        <button onclick="deleteTodo(${todo.id})" class="btn btn-sm btn-outline-danger">🗑️</button>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    async function saveTodo() {
+        const title = document.getElementById("title").value;
+        const description = document.getElementById("description").value;
+
+        if (!title) return alert("Sarlavha kiriting!");
+
+        const dto = { title, description };
+
+        await fetch(API_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dto)
+        });
+
+        document.getElementById("title").value = "";
+        document.getElementById("description").value = "";
+        getAllTodos();
+    }
+
+    async function toggleComplete(id) {
+        await fetch(`${API_URL}/${id}/completed`, { method: "PUT" });
+        getAllTodos();
+    }
+
+    async function deleteTodo(id) {
+        if (confirm("Ushbu vazifani o'chirmoqchimisiz?")) {
+            await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+            getAllTodos();
+        }
+    }
+</script>
+
+</body>
+</html>
