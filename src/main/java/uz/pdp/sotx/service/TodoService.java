@@ -1,8 +1,11 @@
 package uz.pdp.sotx.service;
 
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import uz.pdp.sotx.CacheService;
 import uz.pdp.sotx.model.AuthUser;
 import uz.pdp.sotx.model.Todo;
 import uz.pdp.sotx.model.dto.TodoDto;
@@ -12,20 +15,14 @@ import uz.pdp.sotx.repository.TodoRepository;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class TodoService {
-    private final CacheService cache;
     private final TodoRepository repository;
     private final AuthUserRepository authUserRepository;
 
-    public TodoService(CacheService cache, TodoRepository repository, AuthUserRepository authUserRepository) {
-        this.cache = cache;
-        this.repository = repository;
-        this.authUserRepository = authUserRepository;
-    }
 
     public TodoDto get(Long id) {
         Todo todo = repository.findById(id).orElseThrow(
@@ -41,31 +38,26 @@ public class TodoService {
     }
 
     @SneakyThrows
-    public List<TodoDto> getAll() {
-        Long sesUserId = 1L;
-        List<TodoDto> cacheTodos = cache.getTodos(sesUserId);
-        if (cacheTodos != null) {
-            return cacheTodos;
-        }
-
-        ArrayList<TodoDto> todos = repository.findAll().stream().map(
+    @Cacheable(value = "todos")
+    /// Map todos = ConcurentHasMap.  String , List<TodoDto>. put(#userId, result)
+    public List<TodoDto> getAll(Long userId) {
+        ArrayList<TodoDto> todos = repository.findAllByOwnerId(userId).stream().map(
                 todo ->
                         TodoDto.builder()
                                 .id(todo.getId())
                                 .title(todo.getTitle())
                                 .completed(todo.isCompleted())
                                 .description(todo.getDescription())
+                                .ownerId(todo.getOwner().getId())
                                 .build()
         ).collect(Collectors.toCollection(ArrayList::new));
-        Thread.sleep(3000);
-
-        cache.putTodos(sesUserId, todos);
+        Thread.sleep(1000);
         return todos;
     }
 
-    public void create(TodoSaveDto dto) {
-        Long sessionUserId = 1L;
-        AuthUser authUser = authUserRepository.findById(sessionUserId).orElseThrow();
+    @CachePut(value = "todos", key = "#userId")
+    public List<TodoDto> create(TodoSaveDto dto, Long userId) {
+        AuthUser authUser = authUserRepository.findById(userId).orElseThrow();
 
         Todo todo = new Todo();
         todo.setTitle(dto.getTitle());
@@ -73,7 +65,17 @@ public class TodoService {
         todo.setCompleted(false);
         todo.setOwner(authUser);
         repository.save(todo);
-        cache.clearSessionUserTodos();
+
+        return repository.findAllByOwnerId(userId).stream().map(
+                t ->
+                        TodoDto.builder()
+                                .id(t.getId())
+                                .title(t.getTitle())
+                                .completed(t.isCompleted())
+                                .description(t.getDescription())
+                                .ownerId(t.getOwner().getId())
+                                .build()
+        ).collect(Collectors.toCollection(ArrayList::new));
 
     }
 
@@ -85,22 +87,19 @@ public class TodoService {
         todo.setDescription(dto.getDescription());
         todo.setCompleted(false);
         repository.save(todo);
-        cache.clearSessionUserTodos();
 
     }
 
-    public void delete(Long id) {
-
+    @CacheEvict(value = "todos", key = "#userId")
+    public void delete(Long id, Long userId) {
         repository.deleteById(id);
 
-        CompletableFuture.runAsync(cache::clearSessionUserTodos);
     }
 
     public void completed(Long id) {
         Todo todo = repository.findById(id).orElseThrow();
         todo.setCompleted(true);
         repository.save(todo);
-        cache.clearSessionUserTodos();
     }
 
 }

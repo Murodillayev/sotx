@@ -24,14 +24,13 @@ public class TodoController {
     }
 
     @GetMapping
-    public List<TodoDto> getAll() {
-
-        return service.getAll();
-
+    public List<TodoDto> getAll(@RequestParam Long userId) {
+        return service.getAll(userId);
     }
+
     @PostMapping
-    public void create(@Valid @RequestBody TodoSaveDto dto) {
-        service.create(dto);
+    public void create(@Valid @RequestBody TodoSaveDto dto, @RequestParam Long userId) {
+        service.create(dto, userId);
     }
 
     @PutMapping("/{id}/completed")
@@ -42,12 +41,13 @@ public class TodoController {
 
     @PutMapping("/{id}")
     public void update(@Valid @RequestBody TodoSaveDto dto, @PathVariable Long id) {
-        service.update(id,dto);
+        service.update(id, dto);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
+    public void delete(@PathVariable Long id, @RequestParam Long userId) {
+
+        service.delete(id, userId);
     }
 
 }

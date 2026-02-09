@@ -13,4 +13,6 @@ public class TodoDto {
     private String description;
     private boolean completed;
 
+    private Long ownerId;
+
 }
