@@ -1,4 +1,4 @@
-package uz.pdp.sotx;
+package uz.pdp.sotx.ui;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

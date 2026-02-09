@@ -1,10 +1,10 @@
-package uz.pdp.sotx;
+package uz.pdp.sotx.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.sotx.model.dto.TodoDto;
 import uz.pdp.sotx.model.dto.TodoSaveDto;
-import uz.pdp.sotx.servuce.TodoService;
+import uz.pdp.sotx.service.TodoService;
 
 import java.util.List;
 

@@ -1,10 +1,7 @@
 package uz.pdp.sotx.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.context.annotation.Lazy;
 
@@ -21,4 +18,8 @@ public class Todo {
     private String title;
     private String description;
     private boolean completed;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private AuthUser owner;
 }
