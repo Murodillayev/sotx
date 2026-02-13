@@ -8,9 +8,14 @@ spring:
 
 
 
+
   jpa:
     hibernate:
       ddl-auto: update
+
+  security:
+    user:
+      password: 123
 
 springdoc:
   swagger-ui:

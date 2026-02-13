@@ -12,4 +12,9 @@ public class HomeController {
     public String todoPage() {
         return "todo";
     }
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
+    }
 }

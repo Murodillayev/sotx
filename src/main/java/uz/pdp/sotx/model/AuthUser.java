@@ -1,13 +1,11 @@
 package uz.pdp.sotx.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import uz.pdp.sotx.model.enums.AuthRole;
 
 @Getter
 @Setter
@@ -21,6 +19,8 @@ public class AuthUser {
     private Long id;
     private String fullName;
     private String phone;
-    private String username;
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private AuthRole role;
 }
