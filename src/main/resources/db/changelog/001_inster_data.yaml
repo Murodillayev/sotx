@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0001
+      author: muhammad
+      changes:
+        - createTable:
+            tableName: test
+            columns:
+              - column:
+                  name: id
+                  type: varchar
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar
+                  constraints:
+                    nullable: false
+
+
+

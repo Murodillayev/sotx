@@ -35,9 +35,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
+		<!-- Source: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-liquibase -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-flyway</artifactId>
+			<artifactId>spring-boot-liquibase</artifactId>
+			<version>4.0.0</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -99,6 +102,25 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>5.0.1</version> <configuration>
+				<propertyFile>src/main/resources/application.yml</propertyFile>
+				<changeLogFile>src/main/resources/db/changelog/db.changelog-master.yaml</changeLogFile>
+				<url>jdbc:postgresql://localhost:5432/todo</url>
+				<username>macbookpro</username>
+				<password>19801980</password>
+			</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.postgresql</groupId>
+						<artifactId>postgresql</artifactId>
+						<version>${postgresql.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

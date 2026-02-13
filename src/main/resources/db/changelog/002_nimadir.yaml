@@ -1,0 +1,14 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0002
+      author: Muhammadkomil
+      changes:
+       - insert:
+           tableName: test
+           columns:
+             - column:
+                 name: id
+                 value: '1'
+             - column:
+                 name: name
+                 value: 'Sherzod'
