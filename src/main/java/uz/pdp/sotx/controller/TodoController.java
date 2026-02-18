@@ -1,6 +1,7 @@
 package uz.pdp.sotx.controller;
 
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,8 +40,10 @@ public class TodoController {
     }
 
     @PostMapping
-    public void create(@Valid @RequestBody TodoSaveDto dto, @RequestParam Long userId) {
-        service.create(dto, userId);
+    public ResponseEntity<Void> create(@RequestBody TodoSaveDto dto, @AuthenticationPrincipal CustomUserDetails user) {
+        service.create(dto, user.getId());
+
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}/completed")
@@ -55,9 +58,11 @@ public class TodoController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id, @RequestParam Long userId) {
+    public void delete(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails user) {
 
-        service.delete(id, userId);
+        service.delete(id, user.getId());
     }
 
+
+    // Authorization: Basic <username:password> -> base64
 }

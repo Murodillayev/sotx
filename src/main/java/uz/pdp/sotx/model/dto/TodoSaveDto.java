@@ -10,8 +10,8 @@ import lombok.*;
 @NoArgsConstructor
 public class TodoSaveDto {
 
-    @NotBlank(message = "Bosh bolishi mumkin emas")
-    @Size(min = 3, max = 100, message = "Minimum 3 maxsimum 100 bolsin uzunligi")
+//    @NotBlank(message = "Bosh bolishi mumkin emas")
+//    @Size(min = 3, max = 100, message = "Minimum 3 maxsimum 100 bolsin uzunligi")
     private String title;
 
 

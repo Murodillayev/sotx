@@ -36,3 +36,10 @@ public class CustomUserDetails implements UserDetails {
         return this.username;
     }
 }
+
+// session based ->
+// stateless ->
+
+// api-key -> aklhjadskjlhasj-sadasdlkjads-ads
+// (http basic -> username:password -> base64),
+// jwt -> (login -> jwt_token)<header><payload><signature>
