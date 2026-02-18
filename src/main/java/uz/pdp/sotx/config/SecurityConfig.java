@@ -47,7 +47,7 @@ public class SecurityConfig {
             sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         });
 
-        http.httpBasic(Customizer.withDefaults());
+
         return http.build();
     }
 
