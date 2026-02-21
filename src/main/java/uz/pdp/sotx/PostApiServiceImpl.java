@@ -1,6 +1,10 @@
 package uz.pdp.sotx;
 
+import com.sun.net.httpserver.Headers;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -54,5 +58,58 @@ public class PostApiServiceImpl implements PostApiService {
 
     }
 
+    @Override
+    public Post postForEntity(PostCreateDto dto) {
+
+
+        ResponseEntity<Post> postResponseEntity = restTemplate.postForEntity("https://jsonplaceholder.typicode.com/posts", dto, Post.class);
+        return postResponseEntity.getBody();
+    }
+
+    @Override
+    public Post putObject(PostUpdateDto dto, String id) {
+
+        restTemplate.put("https://jsonplaceholder.typicode.com/posts/{id}", dto, id);
+
+        return null;
+    }
+
+    @Override
+    public void deleteObject(String id) {
+        restTemplate.delete("https://jsonplaceholder.typicode.com/posts/{id}", id);
+    }
+
+    @Override
+    public void testExchange() {
+
+        ResponseEntity<Post[]> exchange = restTemplate.exchange("https://jsonplaceholder.typicode.com/posts", HttpMethod.GET, null, Post[].class);
+
+
+        // --- //
+        ResponseEntity<Post> post = restTemplate.exchange("https://jsonplaceholder.typicode.com/posts/1", HttpMethod.GET, null, new ParameterizedTypeReference<>() {
+        });
+
+        // --- //
+        PostCreateDto createDto = new PostCreateDto();
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        headers.add("Accept", "application/json");
+        headers.setBasicAuth("username", "password");
+        headers.add("Authorization", "Basic lkjhashjksadhjksadkhj==");
+        HttpEntity<PostCreateDto> reqEntity = new HttpEntity<>(createDto, headers);
+        ResponseEntity<Post> crePost = restTemplate.exchange("https://jsonplaceholder.typicode.com/posts", HttpMethod.POST, reqEntity, Post.class);
+
+        // --- //
+
+        PostUpdateDto updateDto = new PostUpdateDto();
+        HttpHeaders headersForUpdate = new HttpHeaders();
+        headersForUpdate.add("Content-Type", "application/json");
+        headersForUpdate.add("Accept", "application/json");
+        headersForUpdate.setBasicAuth("username", "password");
+        headersForUpdate.add("Authorization", "Basic lkjhashjksadhjksadkhj==");
+        HttpEntity<PostUpdateDto> en = new HttpEntity<>(updateDto, headersForUpdate);
+        ResponseEntity<Post> up = restTemplate.exchange("https://jsonplaceholder.typicode.com/posts/1", HttpMethod.PUT, reqEntity, Post.class);
+
+    }
 
 }

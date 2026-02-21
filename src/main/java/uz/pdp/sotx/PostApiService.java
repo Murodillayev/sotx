@@ -16,7 +16,11 @@ public interface PostApiService {
 
     Post postForEntity(PostCreateDto dto);
 
-    Post putObject(PostUpdateDto dto);
+    Post putObject(PostUpdateDto dto, String id);
 
     void deleteObject(String id);
+
+
+
+    void testExchange();
 }
