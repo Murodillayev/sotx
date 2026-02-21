@@ -1,1 +1,0 @@
-drop table fly_table;
