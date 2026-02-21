@@ -2,3 +2,6 @@ springdoc:
   swagger-ui:
     path: /sw
 
+application:
+  post-api: https://jsonplaceholder.typicode.com/posts
+

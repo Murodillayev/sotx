@@ -1,7 +1,6 @@
 package uz.pdp.sotx;
 
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -16,31 +15,32 @@ public class TestRestTemplateController {
     }
 
 
-    @GetMapping("/getForObject")
-    public List<Post> testGetForObject() {
-        return postApiService.getAllByGetForObject();
+    @PostMapping("/create")
+    public Post testGetForObject(@RequestBody PostCreateDto dto) throws Exception {
+        return postApiService.create(dto);
     }
 
-    @GetMapping("/getForEntity")
+    @GetMapping("/getAll")
+    public List<Post> getAll() {
+        return postApiService.getAll();
+    }
+
+    @PutMapping("/update")
     public List<Post> testGetForEntity() {
-        return postApiService.getAllByGetForEntity();
+        return null;
     }
 
 
-    @GetMapping("/getForObject/{id}")
+    @DeleteMapping("/delete/{id}")
     public Post testGetForObject(@PathVariable String id) {
-        return postApiService.getByGetForObject(id);
+        return null;
     }
 
-    @GetMapping("/getForEntity/{id}")
+
+
+    @GetMapping("/get/{id}")
     public Post testGetForEntity(@PathVariable String id) {
-        return postApiService.getByGetForEntity(id);
-    }
-
-    @PostMapping("/postForObject")
-    public Post testPostForObject(@RequestBody PostCreateDto dto) {
-
-        return postApiService.postForObject(dto);
+        return null;
     }
 
 
