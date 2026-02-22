@@ -1,4 +1,4 @@
-package uz.pdp.sotx;
+package uz.pdp.sotx.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

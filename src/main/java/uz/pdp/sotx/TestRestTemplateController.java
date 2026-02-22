@@ -1,6 +1,8 @@
 package uz.pdp.sotx;
 
 import org.springframework.web.bind.annotation.*;
+import uz.pdp.sotx.model.Post;
+import uz.pdp.sotx.model.PostCreateDto;
 
 import java.util.List;
 

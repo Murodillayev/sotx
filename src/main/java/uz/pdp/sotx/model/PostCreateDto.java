@@ -1,4 +1,4 @@
-package uz.pdp.sotx;
+package uz.pdp.sotx.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -6,8 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class Post {
-    private String id;
+public class PostCreateDto {
     private String title;
     private String userId;
     @JsonProperty("body")
