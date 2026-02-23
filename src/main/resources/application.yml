@@ -1,7 +1,14 @@
-springdoc:
-  swagger-ui:
-    path: /sw
+spring:
+  shell:
+    interactive:
+      enabled: true
 
-application:
-  post-api: https://jsonplaceholder.typicode.com/posts
+  datasource:
+    username: macbookpro
+    password: 19801980
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/test
 
+  jpa:
+    hibernate:
+      ddl-auto: update
