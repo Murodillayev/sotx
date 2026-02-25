@@ -1,26 +1,33 @@
 package uz.pdp.sotx;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CalculatorService {
 
-    public Double add(Double a, Double b) {
+
+    public int add(int a, int b) {
         return a + b;
     }
 
-    public Double subtract(Double a, Double b) {
+    public int sub(int a, int b) {
         return a - b;
     }
 
-    public Double multiply(Double a, Double b) {
+    public int mul(int a, int b) {
         return a * b;
     }
 
-    public Double divide(Double a, Double b) {
+    @SneakyThrows
+    public int div(int a, int b) {
+
+
+        Thread.sleep(100);
+        if (b == 0) {
+            throw new BadRequestException("not zero");
+        }
         return a / b;
     }
 }
 
-
-// service -> | controller | messageHandler | command
