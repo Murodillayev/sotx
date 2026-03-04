@@ -30,8 +30,8 @@ public class TodoController {
 
     }
     @PostMapping
-    public void create(@Valid @RequestBody TodoSaveDto dto) {
-        service.create(dto);
+    public TodoDto create(@RequestBody TodoSaveDto dto) {
+        return service.create(dto);
     }
 
     @PutMapping("/{id}/completed")

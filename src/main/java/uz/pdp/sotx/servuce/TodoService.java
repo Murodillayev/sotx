@@ -1,6 +1,7 @@
 package uz.pdp.sotx.servuce;
 
 import org.springframework.stereotype.Service;
+import uz.pdp.sotx.mapper.TodoMapper;
 import uz.pdp.sotx.model.Todo;
 import uz.pdp.sotx.model.dto.TodoDto;
 import uz.pdp.sotx.model.dto.TodoSaveDto;
@@ -11,9 +12,11 @@ import java.util.List;
 @Service
 public class TodoService {
 
+    private final TodoMapper mapper;
     private final TodoRepository repository;
 
-    public TodoService(TodoRepository repository) {
+    public TodoService(TodoMapper mapper, TodoRepository repository) {
+        this.mapper = mapper;
         this.repository = repository;
     }
 
@@ -43,13 +46,22 @@ public class TodoService {
         ).toList();
     }
 
-    public void create(TodoSaveDto dto) {
-        Todo todo = new Todo();
-        todo.setTitle(dto.getTitle());
-        todo.setDescription(dto.getDescription());
-        todo.setCompleted(false);
-        repository.save(todo);
+    public TodoDto create(TodoSaveDto dto) {
+        Todo todo = mapper.fromDto(dto);
+
+        if (dto == null) {
+            throw new RuntimeException("dto is null");
+        }
+
+        if (dto.getTitle() == null) {
+            throw new RuntimeException("Title is required");
+        }
+        Todo save = repository.save(todo);
+        TodoDto dto1 = mapper.toDto(save);
+        System.out.println(dto1);
+        return dto1;
     }
+
 
     public void update(Long id, TodoSaveDto dto) {
         Todo todo = repository.findById(id).orElseThrow(

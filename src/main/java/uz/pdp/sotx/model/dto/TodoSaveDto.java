@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class TodoSaveDto {
 
     @NotBlank(message = "Bosh bolishi mumkin emas")
