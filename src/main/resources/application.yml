@@ -8,7 +8,10 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
 
+springdoc:
+  swagger-ui:
+    path: /sw
 
 

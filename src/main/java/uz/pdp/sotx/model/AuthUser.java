@@ -1,10 +1,7 @@
 package uz.pdp.sotx.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import uz.pdp.sotx.model.enums.AuthRole;
 
 @Getter
@@ -12,6 +9,7 @@ import uz.pdp.sotx.model.enums.AuthRole;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@ToString
 public class AuthUser {
 
     @Id
