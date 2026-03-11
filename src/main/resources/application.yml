@@ -1,17 +1,18 @@
+logging:
+  file:
+    name: /srv/parrotbot/logs/application.log
+
+
+
+application:
+  telegram-bot:
+    token: 7112772080:AAEbq7d8UnV-ZFPlwX2A5RXRQncqUVubAwQ
+    username: olmosmedbot
+
+
+server:
+  port: 8080
+
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/test
-    username: macbookpro
-    password: 19801980
-    driver-class-name: org.postgresql.Driver
-
-
-  jpa:
-    hibernate:
-      ddl-auto: create
-
-springdoc:
-  swagger-ui:
-    path: /sw
-
-
+  config:
+    location: /srv/parrotbot/config/application.yml

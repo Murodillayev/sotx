@@ -1,0 +1,22 @@
+2026-03-06T16:09:39.138+05:00  INFO 13410 --- [main] uz.pdp.sotx.SotxApplication              : Starting SotxApplication using Java 22.0.2 with PID 13410 (/Users/macbookpro/Documents/pdp/sotx/target/classes started by macbookpro in /Users/macbookpro/Documents/pdp/sotx)
+2026-03-06T16:09:39.139+05:00  INFO 13410 --- [main] uz.pdp.sotx.SotxApplication              : No active profile set, falling back to 1 default profile: "default"
+2026-03-06T16:09:39.559+05:00  INFO 13410 --- [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-03-06T16:09:39.565+05:00  INFO 13410 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-06T16:09:39.565+05:00  INFO 13410 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.15]
+2026-03-06T16:09:39.589+05:00  INFO 13410 --- [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 426 ms
+2026-03-06T16:09:41.294+05:00  INFO 13410 --- [main] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2026-03-06T16:09:41.421+05:00  INFO 13410 --- [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-03-06T16:09:41.425+05:00  INFO 13410 --- [main] uz.pdp.sotx.SotxApplication              : Started SotxApplication in 2.556 seconds (process running for 3.1)
+2026-03-06T16:10:03.645+05:00  INFO 13410 --- [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-06T16:10:03.649+05:00  INFO 13410 --- [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
+2026-03-06T16:10:05.134+05:00  INFO 13428 --- [main] uz.pdp.sotx.SotxApplication              : Starting SotxApplication using Java 22.0.2 with PID 13428 (/Users/macbookpro/Documents/pdp/sotx/target/classes started by macbookpro in /Users/macbookpro/Documents/pdp/sotx)
+2026-03-06T16:10:05.136+05:00  INFO 13428 --- [main] uz.pdp.sotx.SotxApplication              : No active profile set, falling back to 1 default profile: "default"
+2026-03-06T16:10:05.554+05:00  INFO 13428 --- [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-03-06T16:10:05.560+05:00  INFO 13428 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-06T16:10:05.560+05:00  INFO 13428 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.15]
+2026-03-06T16:10:05.583+05:00  INFO 13428 --- [main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 421 ms
+2026-03-06T16:10:06.255+05:00  INFO 13428 --- [main] o.s.v.b.OptionalValidatorFactoryBean     : Failed to set up a Bean Validation provider: jakarta.validation.NoProviderFoundException: Unable to create a Configuration, because no Jakarta Validation provider could be found. Add a provider like Hibernate Validator (RI) to your classpath.
+2026-03-06T16:10:06.387+05:00  INFO 13428 --- [main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-03-06T16:10:06.391+05:00  INFO 13428 --- [main] uz.pdp.sotx.SotxApplication              : Started SotxApplication in 1.52 seconds (process running for 2.074)
+2026-03-06T16:13:36.453+05:00  INFO 13428 --- [SpringApplicationShutdownHook] o.s.boot.tomcat.GracefulShutdown         : Commencing graceful shutdown. Waiting for active requests to complete
+2026-03-06T16:13:36.457+05:00  INFO 13428 --- [tomcat-shutdown] o.s.boot.tomcat.GracefulShutdown         : Graceful shutdown complete
