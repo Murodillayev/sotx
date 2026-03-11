@@ -11,4 +11,8 @@ spring:
       ddl-auto: update
 
 
+#  graphql:
+#    schema:
+#      locations: classpath:graphql/
+#      file-extensions: .graphqls,.gqls
 

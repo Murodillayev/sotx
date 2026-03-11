@@ -63,14 +63,14 @@ public class TodoService {
     }
 
 
-    public void update(Long id, TodoSaveDto dto) {
+    public TodoDto update(Long id, TodoSaveDto dto) {
         Todo todo = repository.findById(id).orElseThrow(
                 () -> new RuntimeException("Todo not found")
         );
         todo.setTitle(dto.getTitle());
         todo.setDescription(dto.getDescription());
         todo.setCompleted(false);
-        repository.save(todo);
+        return mapper.toDto(repository.save(todo));
 
     }
 

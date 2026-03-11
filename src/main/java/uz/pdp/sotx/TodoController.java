@@ -1,15 +1,17 @@
 package uz.pdp.sotx;
 
-import jakarta.validation.Valid;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.stereotype.Controller;
 import uz.pdp.sotx.model.dto.TodoDto;
 import uz.pdp.sotx.model.dto.TodoSaveDto;
 import uz.pdp.sotx.servuce.TodoService;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/todo")
+@Controller
 public class TodoController {
     private final TodoService service;
 
@@ -17,37 +19,35 @@ public class TodoController {
         this.service = service;
     }
 
-    @GetMapping("/{id}")
-    public TodoDto get(@PathVariable Long id) {
-
-        return service.get(id);
-    }
-
-    @GetMapping
+//    @SchemaMapping(typeName = "Query", value = "getAll")
+    @QueryMapping("getAll")
     public List<TodoDto> getAll() {
-
         return service.getAll();
 
     }
-    @PostMapping
-    public TodoDto create(@RequestBody TodoSaveDto dto) {
+
+    @SchemaMapping(typeName = "Query", value = "get")
+    public TodoDto get(@Argument Long id) {
+        return service.get(id);
+
+    }
+
+    @SchemaMapping(typeName = "Mutation", value = "create")
+    public TodoDto create(@Argument TodoSaveDto dto) {
         return service.create(dto);
     }
 
-    @PutMapping("/{id}/completed")
-    public void completed(@PathVariable Long id) {
-        service.completed(id);
+    @SchemaMapping(typeName = "Mutation", value = "update")
+    public TodoDto update(@Argument Long id, @Argument TodoSaveDto dto) {
+        return service.update(id, dto);
     }
 
-
-    @PutMapping("/{id}")
-    public void update(@Valid @RequestBody TodoSaveDto dto, @PathVariable Long id) {
-        service.update(id,dto);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
+//    @SchemaMapping(typeName = "Mutation", value = "delete")
+    @MutationMapping("delete")
+    public Boolean delete(@Argument Long id) {
         service.delete(id);
+        return true;
     }
+
 
 }

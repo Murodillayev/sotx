@@ -1,0 +1,23 @@
+type Query {
+    getAll: [Todo!]!,
+    get(id: ID!): Todo,
+    sessionUserName: String!
+}
+
+type Mutation {
+    create(dto: TodoCreate!): Todo
+    update(id: ID!, dto: TodoCreate!): Todo
+    delete(id: ID!): Boolean
+}
+
+type Todo {
+    id: ID!,
+    title: String!,
+    description: String,
+    completed: Boolean!
+}
+
+input TodoCreate{
+    title: String!,
+    description: String,
+}
